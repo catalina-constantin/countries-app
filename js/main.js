@@ -19,6 +19,14 @@ let allCountries = [];
 const {searchContainer, input, button} = createSearchBar();
 body.insertBefore(searchContainer, resultsContainer);
 
+function performSearch() {
+    const searchValue = input.value.trim().toLowerCase();
+    const filtered = allCountries.filter(country =>
+        country.name.common.toLowerCase().includes(searchValue)
+    );
+    renderCountryList(resultsContainer, filtered);
+}
+
 fetchCountries()
     .then(data => {
         allCountries = data;
@@ -28,10 +36,10 @@ fetchCountries()
         console.error('[ERROR] Fetch error:', error);
     });
 
-button.addEventListener('click', () => {
-    const searchValue = input.value.trim().toLowerCase();
-    const filtered = allCountries.filter(country =>
-        country.name.common.toLowerCase().includes(searchValue)
-    );
-    renderCountryList(resultsContainer, filtered);
+button.addEventListener('click', performSearch);
+
+input.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        performSearch();
+    }
 });
