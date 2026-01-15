@@ -21,6 +21,10 @@ body.insertBefore(searchContainer, resultsContainer);
 
 function performSearch() {
     const searchValue = input.value.trim().toLowerCase();
+    if (searchValue.length < 3) {
+        resultsContainer.innerHTML = '<p class="search-message">Please enter at least 3 characters to search for a country</p>';
+        return;
+    }
     const filtered = allCountries.filter(country =>
         country.name.common.toLowerCase().includes(searchValue)
     );
@@ -30,7 +34,6 @@ function performSearch() {
 fetchCountries()
     .then(data => {
         allCountries = data;
-        renderCountryList(resultsContainer, allCountries);     
     })
     .catch(error => {
         console.error('[ERROR] Fetch error:', error);
