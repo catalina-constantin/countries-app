@@ -218,3 +218,85 @@ body {
 .country-card a {
     color: #8481c4;
 }
+
+.favourites-modal {
+    position: fixed;
+    right: 32px;
+    bottom: calc(40px + 48px);
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 12px 14px 12px;
+    min-width: 240px;
+    max-width: 80vw;
+    max-height: 32vh;
+    overflow: visible;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+    z-index: 2001;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 0.92rem;
+}
+
+.favourites-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.favourites-modal-title {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.favourites-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.favourites-modal-empty {
+    font-size: 0.95rem;
+}
+
+.favourites-modal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 22vh;
+    overflow-y: auto;
+    width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+    overflow-x: hidden;
+    padding-right: 2px;
+    box-sizing: border-box;
+    margin-right: -8px;
+    margin-left: 0;
+}
+.favourites-modal-list::-webkit-scrollbar {
+    display: none; 
+}
+
+.favourites-modal-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.favourites-modal-flag {
+    width: 18px;
+    height: 13px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px #0001;
+}
+
+.favourites-modal-country-name {
+    font-size: 0.95rem;
+}

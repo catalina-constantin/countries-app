@@ -55,6 +55,12 @@ fetchCountries()
     .then(data => {
         allCountries = data;
         setLocalStorageItem('countriesData', allCountries);
+
+        const fab = createFab({
+            allCountries,
+            renderCountryList,
+        });
+        body.appendChild(fab);
     })
     .catch(error => {
         console.error('[ERROR] Fetch error:', error);
@@ -67,6 +73,3 @@ input.addEventListener('keypress', (event) => {
         performSearch();
     }
 });
-
-const fab = createFab();
-body.appendChild(fab);
