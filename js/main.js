@@ -2,6 +2,7 @@ import { fetchCountries } from "./api/countriesApi.js";
 import { createSearchBar } from "./components/SearchBar.js";
 import { renderCountryList } from "./components/CountryList.js";
 import { createSearchHistory } from "./components/SearchHistory.js";
+import { createFab } from "./components/FavouriteCountryFab.js";
 
 const body = document.querySelector('body');
 body.innerHTML = '';
@@ -66,3 +67,6 @@ input.addEventListener('keypress', (event) => {
         performSearch();
     }
 });
+
+const fab = createFab();
+body.appendChild(fab);
