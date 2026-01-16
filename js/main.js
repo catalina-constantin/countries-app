@@ -1,6 +1,7 @@
 import { fetchCountries } from "./api/countriesApi.js";
 import { createSearchBar } from "./components/SearchBar.js";
 import { renderCountryList } from "./components/CountryList.js";
+import { createSearchHistory } from "./components/SearchHistory.js";
 
 const body = document.querySelector('body');
 body.innerHTML = '';
@@ -19,6 +20,13 @@ let allCountries = [];
 const {searchContainer, input, button} = createSearchBar();
 body.insertBefore(searchContainer, resultsContainer);
 
+const searchHistory = createSearchHistory({
+    input,
+    resultsContainer,
+    renderCountryList,
+});
+searchContainer.appendChild(searchHistory.historyDropdown);
+
 function performSearch() {
     const searchValue = input.value.trim().toLowerCase();
     if (searchValue.length < 3) {
@@ -29,11 +37,23 @@ function performSearch() {
         country.name.common.toLowerCase().includes(searchValue)
     );
     renderCountryList(resultsContainer, filtered);
+    if (filtered.length > 0) {
+        searchHistory.addSearchHistoryItem(searchValue, filtered);
+    }
+}
+
+function setLocalStorageItem(item, value){
+    try {
+        localStorage.setItem(item, JSON.stringify(value));
+    } catch (error) {
+        console.error('[ERROR] LocalStorage set error:', error);
+    }
 }
 
 fetchCountries()
     .then(data => {
         allCountries = data;
+        setLocalStorageItem('countriesData', allCountries);
     })
     .catch(error => {
         console.error('[ERROR] Fetch error:', error);
