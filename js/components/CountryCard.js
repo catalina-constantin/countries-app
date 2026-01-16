@@ -13,7 +13,62 @@ export function createCountryCard(country) {
     textCol.className = 'text-col';
 
     const nameHeading = document.createElement('h2');
-    nameHeading.textContent = country.name.common;
+
+    const star = document.createElement('span');
+    star.className = 'favourite-star';
+
+    star.innerHTML = `
+        <svg viewBox="0 0 24 24" width="28" height="28" class="star-svg" aria-hidden="true" focusable="false">
+            <polygon points="12,2 15,9 22,9.5 17,14.5 18.5,22 12,18 5.5,22 7,14.5 2,9.5 9,9" />
+        </svg>
+    `;
+
+    function getFavourites(){
+        try {
+            const favs = localStorage.getItem('favouriteCountries');
+            return favs ? JSON.parse(favs) : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function setFavourites(favs){
+        try {
+            localStorage.setItem('favouriteCountries', JSON.stringify(favs));
+        } catch {}
+    }
+
+    function isFavourite(cca3){
+        const favs = getFavourites();
+        return favs.includes(cca3);
+    }
+
+    function toggleFavourite(cca3){
+        let favs = getFavourites();
+        if (favs.includes(cca3)) {
+            favs = favs.filter(code => code !== cca3);
+        } else {
+            favs = [cca3, ...favs];
+        }
+        setFavourites(favs);
+        updateStar();
+    }
+
+    function updateStar(){
+        if (isFavourite(country.cca3)) {
+            star.classList.add('is-favourite');
+            star.title = 'Remove from favourites';
+        } else {
+            star.classList.remove('is-favourite');
+            star.title = 'Add to favourites';
+        }
+    }
+
+    star.onclick = () => toggleFavourite(country.cca3);
+    updateStar();
+
+    nameHeading.appendChild(star);
+    nameHeading.appendChild(document.createTextNode(country.name.common));
     textCol.appendChild(nameHeading);
 
     const infoColumns = document.createElement('div');
