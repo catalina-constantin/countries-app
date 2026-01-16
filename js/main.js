@@ -64,5 +64,8 @@ button.addEventListener('click', performSearch);
 input.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         performSearch();
+        if (searchHistory && searchHistory.historyDropdown) {
+            searchHistory.historyDropdown.style.display = 'none';
+        }
     }
 });
