@@ -2,6 +2,8 @@ import { fetchCountries } from "./api/countriesApi.js";
 import { createSearchBar } from "./components/SearchBar.js";
 import { renderCountryList } from "./components/CountryList.js";
 import { createSearchHistory } from "./components/SearchHistory.js";
+import { createFab } from "./components/FavouriteCountryFab.js";
+import { fetchCountryByName } from "./api/countriesApi.js";
 
 const body = document.querySelector('body');
 body.innerHTML = '';
@@ -29,15 +31,11 @@ searchContainer.appendChild(searchHistory.historyDropdown);
 
 function performSearch() {
     const searchValue = input.value.trim().toLowerCase();
-    if (searchValue.length < 3) {
-        resultsContainer.innerHTML = '<p class="search-message">Please enter at least 3 characters to search for a country</p>';
-        return;
-    }
     const filtered = allCountries.filter(country =>
         country.name.common.toLowerCase().includes(searchValue)
     );
     renderCountryList(resultsContainer, filtered);
-    if (filtered.length > 0) {
+    if (filtered.length > 0 && searchValue.length > 0) {
         searchHistory.addSearchHistoryItem(searchValue, filtered);
     }
 }
@@ -54,6 +52,15 @@ fetchCountries()
     .then(data => {
         allCountries = data;
         setLocalStorageItem('countriesData', allCountries);
+
+        const fab = createFab({
+            allCountries,
+            renderCountryList,
+            resultsContainer,
+            input,
+            fetchCountryByName,
+        });
+        body.appendChild(fab);
     })
     .catch(error => {
         console.error('[ERROR] Fetch error:', error);

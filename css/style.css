@@ -12,7 +12,18 @@ body {
     background: #fff;
     box-shadow: 0px 0px 10px #0000001a;
     border-radius: 8px;
+    cursor: default;
  }
+
+.country-card .is-favourite ~ .country-info-columns,
+.country-card.is-expanded {
+    box-shadow: 0 0 0 2px rgba(106, 104, 150, 0.25);
+    border-radius: 8px;
+}
+
+.country-card:has(.favourite-star.is-favourite):hover {
+  cursor: pointer;
+}
 
 #title {
     text-align: center;
@@ -51,7 +62,7 @@ body {
     padding: 10px;
     border: none;
     border-radius: 8px;
-    background-color: #6a6896;
+    background-color: rgb(106, 104, 150);
     color: #ffffff;
     min-width: 120px;
     font-size: 16px;
@@ -83,6 +94,85 @@ body {
     background: #f1f1f7;
 }
 
+.favourite-star {
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: 1.7em;
+    color: #ffd600;
+    font-weight: 300;
+    vertical-align: middle;
+    transition: filter 0.2s;
+}
+
+.favourite-star .star-svg {
+    fill: none;
+    stroke: #ffd600;
+    stroke-width: 2;
+    transition: fill 0.2s, stroke 0.2s;
+}
+
+.favourite-star.is-favourite .star-svg {
+    fill: #ffd600;
+    stroke: #ffd600;
+}
+
+.fab {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #6a6896;
+    color: #fff;
+    font-size: 2rem;
+    border: none;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18), 0 1.5px 6px rgba(0,0,0,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: box-shadow 0.2s background 0.2s;
+    z-index: 1001;
+    padding: 0;
+}
+
+.fab:hover {
+    background: #57557a;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.22);
+}
+
+.fab::after {
+    content: "Check your favourite countries";
+    position: absolute;
+    right: 110%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #57557a;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    font-size: 0.95rem;
+    transition: opacity 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+}
+
+.fab:hover::after {
+    opacity: 1;
+}
+
+.fab .star-svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    transition: fill 0.2s, stroke 0.2s;
+}
+
 .country-info-columns {
     display: flex;
     gap: 24px;
@@ -96,6 +186,11 @@ body {
 }
 
 .country-info-columns .info-col p {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.country-extra-info p {
     margin-top: 0;
     margin-bottom: 8px;
 }
@@ -138,4 +233,97 @@ body {
 }
 .country-card a {
     color: #8481c4;
+}
+
+.favourites-modal {
+    position: fixed;
+    right: 32px;
+    bottom: calc(40px + 48px);
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 12px 14px 12px;
+    min-width: 240px;
+    max-width: 80vw;
+    max-height: 32vh;
+    overflow: visible;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+    z-index: 2001;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 0.92rem;
+}
+
+.favourites-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.favourites-modal-title {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.favourites-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.favourites-modal-empty {
+    font-size: 0.95rem;
+}
+
+.favourites-modal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 22vh;
+    overflow-y: auto;
+    width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+    overflow-x: hidden;
+    padding-right: 2px;
+    box-sizing: border-box;
+    margin-right: -8px;
+    margin-left: 0;
+}
+.favourites-modal-list::-webkit-scrollbar {
+    display: none; 
+}
+
+.favourites-modal-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.favourites-modal-row:hover {
+    background-color: #f1f1f7;
+    cursor: pointer;
+}
+
+.favourites-modal-flag {
+    width: 18px;
+    height: 13px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px #0001;
+}
+
+.favourites-modal-country-name {
+    font-size: 0.95rem;
+}
+
+h2 {
+    display: flex;
+    align-items: center;
 }
