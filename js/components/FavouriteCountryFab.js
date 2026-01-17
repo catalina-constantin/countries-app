@@ -1,4 +1,10 @@
-export function createFab({ allCountries = [], renderCountryList } = {}) {
+export function createFab({ 
+    allCountries = [], 
+    renderCountryList,
+    resultsContainer,
+    input, 
+    fetchCountryByName,
+} = {}) {
     const fab = document.createElement('button');
     fab.className = 'fab';
     fab.innerHTML = `
@@ -51,9 +57,11 @@ export function createFab({ allCountries = [], renderCountryList } = {}) {
         } else {
             const list = document.createElement('div');
             list.className = 'favourites-modal-list';
+
             favCountries.forEach(c => {
                 const row = document.createElement('div');
                 row.className = 'favourites-modal-row';
+                row.tabIndex = 0;
 
                 const flag = document.createElement('img');
                 flag.src = c.flags && c.flags.svg ? c.flags.svg : '';
@@ -67,6 +75,37 @@ export function createFab({ allCountries = [], renderCountryList } = {}) {
                 row.appendChild(flag);
                 row.appendChild(name);
                 list.appendChild(row);
+
+
+
+                async function selectCountry() {
+                    if (input) {
+                        input.value = c.name.common;
+                    }
+
+                    let enrichedCountryData = null;
+
+                    if (typeof fetchCountryByName === 'function') {
+                        enrichedCountryData = await fetchCountryByName(c.name.common);
+                    }
+
+                    const countryData = enrichedCountryData && enrichedCountryData.length > 0 ? enrichedCountryData[0] : c;
+
+                    if (resultsContainer && renderCountryList) {
+                        renderCountryList(resultsContainer, [countryData]);
+                        resultsContainer.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    modal.remove();
+                };
+
+                name.addEventListener('click', selectCountry);
+                row.addEventListener('click', selectCountry);
+                row.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectCountry();
+                    }
+                });
             });
             modal.appendChild(list);
         }

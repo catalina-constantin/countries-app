@@ -12,7 +12,18 @@ body {
     background: #fff;
     box-shadow: 0px 0px 10px #0000001a;
     border-radius: 8px;
+    cursor: default;
  }
+
+.country-card .is-favourite ~ .country-info-columns,
+.country-card.is-expanded {
+    box-shadow: 0 0 0 2px rgba(106, 104, 150, 0.25);
+    border-radius: 8px;
+}
+
+.country-card:has(.favourite-star.is-favourite):hover {
+  cursor: pointer;
+}
 
 #title {
     text-align: center;
@@ -51,7 +62,7 @@ body {
     padding: 10px;
     border: none;
     border-radius: 8px;
-    background-color: #6a6896;
+    background-color: rgb(106, 104, 150);
     color: #ffffff;
     min-width: 120px;
     font-size: 16px;
@@ -179,6 +190,11 @@ body {
     margin-bottom: 8px;
 }
 
+.country-extra-info p {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
 @media (max-width: 600px) {
     .country-info-columns {
         flex-direction: column;
@@ -287,6 +303,12 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
+}
+
+.favourites-modal-row:hover {
+    background-color: #f1f1f7;
+    cursor: pointer;
 }
 
 .favourites-modal-flag {
@@ -299,4 +321,9 @@ body {
 
 .favourites-modal-country-name {
     font-size: 0.95rem;
+}
+
+h2 {
+    display: flex;
+    align-items: center;
 }
