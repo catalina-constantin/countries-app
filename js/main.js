@@ -32,7 +32,7 @@ searchContainer.appendChild(searchHistory.historyDropdown);
 function performSearch() {
     const searchValue = input.value.trim().toLowerCase();
     const filtered = allCountries.filter(country =>
-        country.name.common.toLowerCase().includes(searchValue)
+        country.name.common.toLowerCase().startsWith(searchValue.toLowerCase())
     );
     renderCountryList(resultsContainer, filtered);
     if (filtered.length > 0 && searchValue.length > 0) {
